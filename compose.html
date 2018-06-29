@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<title>Examples</title>
+<meta name="description" content="">
+<meta name="keywords" content="">
+<link href="" rel="stylesheet">
+<script src="https://cdn.bootcss.com/redux/3.7.1/redux.js"></script>
+</head>
+<body>
+    <script>
+    	function func1(num) {
+            console.log('func1 get param', num);
+            return num + 1;
+        }
+
+        function func2(num) {
+            console.log('func2 get param', num);
+            return num + 2;
+        }
+
+        function func3(num) {
+            console.log('func3 get param', num);
+            return num + 3;
+        }
+
+        var re1 = func3(func2(func1(0)));
+        console.log('re1', re1);
+
+        var re2 = Redux.compose(func3, func2, func1)(0);
+        console.log('re2', re2);
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
