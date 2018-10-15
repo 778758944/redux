@@ -31,6 +31,21 @@
 
         var re2 = Redux.compose(func3, func2, func1)(0);
         console.log('re2', re2);
+
+        var arr = [1, 2, 3, 4, 5];
+
+        var re3 = arr.reduce(function(total, i) {
+            console.log(total, i);
+            return total + i;
+        }, 0);
+
+        var re4 = arr.reduceRight((total, i) => {
+            console.log(total, i);
+            return total + i;
+        })
+
+        console.log("re3",re3);
+        console.log("re4", re4);
     </script>
 </body>
 </html>

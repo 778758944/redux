@@ -23,6 +23,14 @@
             }
         }
 
+        function asyncInc() {
+            return (dispatch) => {
+                setTimeout(() => {
+                    dispatch(inc());
+                }, 2000);
+            }
+        }
+
         function reducer(state = { counter: 0 }, action){
             switch(action.type) {
                 case "INCREMENT":
@@ -43,11 +51,11 @@
         }
 
         function printStateMiddleware(middlewareApi){
-            console.log('mid', middlewareApi);
+            // console.log('mid', middlewareApi);
             return function(dispatch) {
-                console.log(dispatch);
+                // console.log(dispatch);
                 return function(action) {
-                    console.log(action);
+                    // console.log(action);
                     console.log("before dispatch", middlewareApi.getState());
                     var returnValue = dispatch(action);
                     console.log("after dispatch", middlewareApi.getState());
@@ -61,19 +69,35 @@
                 return function(action) {
                     console.log(action);
                     dispatch(action);
-                    console.log("dispatch test")
+                    console.log("dispatch test");
+                    return 11;
                 }
             }
         }
 
-        var enhanceCreateStore = Redux.applyMiddleware(printStateMiddleware, printStateTest)(Redux.createStore);
-        // var store = enhanceCreateStore(reducer);
+        function thunkMiddleware(middlewareApi) {
+            return function(dispatch) {
+                return function(action) {
+                    if (typeof action === "function") {
+                        action(dispatch);
+                    } else {
+                        dispatch(action);
+                    }
+                } 
+            }
+        }
+
+
+        var enhanceCreateStore = Redux.applyMiddleware(printStateMiddleware, thunkMiddleware)(Redux.createStore);
+        var store = enhanceCreateStore(reducer);
+        store.subscribe(() => console.log(store.getState()));
+        /*
         var store = Redux.createStore(reducer, Redux.applyMiddleware(
             printStateMiddleware,
-            printStateTest,
             ));
-        store.dispatch(inc());
-        console.log(store.getState());
+            */
+        console.log(store.dispatch(inc()));
+        store.dispatch(asyncInc());
     </script>
 </body>
 </html>
